@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediScan - Diagnostic Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2a5bd7;
+            --primary-light: #e8f0fe;
+            --primary-dark: #1a4bc2;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --background: #f0f4f8;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+            text-align: center;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 400px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            background: var(--primary-light);
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .brain-icon {
+            color: #2a5bd7;
+            background: #e8f0fe;
+        }
+
+        .skin-icon {
+            color: #dc3545;
+            background: #ffeaea;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .card-description {
+            color: var(--secondary);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-brain {
+            background-color: #2a5bd7;
+        }
+
+        .btn-brain:hover {
+            background-color: #1a4bc2;
+        }
+
+        .btn-skin {
+            background-color: #dc3545;
+        }
+
+        .btn-skin:hover {
+            background-color: #c82333;
+        }
+
+        .info-section {
+            margin-top: 40px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 25px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .info-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .info-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-hospital logo-icon"></i>
+            <h1>Medi<span style="color: var(--primary)">Scan</span></h1>
+        </div>
+        <p class="subtitle">Advanced AI-powered medical diagnostics for accurate and fast results</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div>
+                <div class="card-icon brain-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h2 class="card-title">Brain Tumor Testing</h2>
+                <p class="card-description">Upload MRI scans to detect potential brain tumors using our advanced deep learning algorithms. Early detection saves lives.</p>
+            </div>
+            <a href="tumor.html" class="btn btn-brain">
+                <i class="fas fa-search"></i> Start Tumor Test
+            </a>
+        </div>
+
+        <div class="card">
+            <div>
+                <div class="card-icon skin-icon">
+                    <i class="fas fa-allergies"></i>
+                </div>
+                <h2 class="card-title">Skin Disease Detection</h2>
+                <p class="card-description">Upload images of skin conditions to identify potential diseases, including melanoma and other dermatological concerns.</p>
+            </div>
+            <a href="skin.html" class="btn btn-skin">
+                <i class="fas fa-diagnoses"></i> Start Skin Analysis
+            </a>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <h2 class="info-title"><i class="fas fa-info-circle"></i> How It Works</h2>
+        
+        <div class="info-grid">
+            <div class="info-card">
+                <h3><i class="fas fa-upload"></i> Upload Images</h3>
+                <p>Submit medical images through our secure portal. We support MRI scans for brain analysis and dermatological images for skin conditions.</p>
+            </div>
+            
+            <div class="info-card">
+                <h3><i class="fas fa-cogs"></i> AI Analysis</h3>
+                <p>Our advanced deep learning algorithms analyze your images with precision, comparing against thousands of validated medical cases.</p>
+            </div>
+            
+            <div class="info-card">
+                <h3><i class="fas fa-file-medical-alt"></i> Get Results</h3>
+                <p>Receive detailed reports with findings and recommendations. Remember, our tool assists but doesn't replace professional medical advice.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>MediScan - This diagnostic tool is for assistance purposes only. Always consult healthcare professionals for medical diagnosis.</p>
+        <p>© 2023 MediScan | Privacy Policy | Terms of Use</p>
+    </footer>
+
+</body>
+</html>

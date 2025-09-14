@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Video Call</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { 
+      background: #1e1e2f; 
+      color: #fff; 
+      font-family: 'Segoe UI', sans-serif; 
+      padding: 20px; 
+    }
+    h1 { text-align: center; margin-bottom: 20px; }
+    #jitsi-container { width: 100%; height: 600px; margin-top: 20px; }
+    #status { text-align: center; margin-top: 10px; font-size: 1.1rem; color: #ffcc00; }
+    #alert { text-align: center; margin-top: 10px; font-size: 1.1rem; color: #ff4d4d; }
+  </style>
+</head>
+<body>
+  <h1>Health Video Call</h1>
+
+  <div id="jitsi-container"></div>
+  <div id="status">Loading video call interface...</div>
+  <div id="alert"></div>
+
+  <script src="https://meet.jit.si/external_api.js"></script>
+  <script>
+    const API_URL = "http://43.205.99.151:9000/cron-status";
+    let api = null;
+    const container = document.getElementById("jitsi-container");
+
+    async function checkCron() {
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json(); // changed to parse JSON
+        const cronRunning = data.status.toLowerCase().includes("running");
+        const startCall = data.startCall;
+
+        if (!cronRunning || !startCall) {
+          document.getElementById("status").innerText = "No meeting scheduled.";
+          document.getElementById("alert").innerText = "No meeting is running currently. Please contact the hospital.";
+        } else {
+          document.getElementById("status").innerText = "Meeting ready to join.";
+          document.getElementById("alert").innerText = "";
+        }
+        return startCall;
+      } catch (err) {
+        console.error("Error fetching cron status:", err);
+        document.getElementById("status").innerText = "Error checking schedule.";
+        document.getElementById("alert").innerText = "Error contacting server. Try again later.";
+        return false;
+      }
+    }
+
+    function startJitsiHome() {
+      // Dispose previous instance if exists
+      if (api) api.dispose();
+      container.innerHTML = "";
+
+      const domain = "meet.jit.si";
+      const options = {
+        roomName: "", // no room initially
+        parentNode: container,
+        width: "100%",
+        height: 600,
+        configOverwrite: {
+          prejoinPageEnabled: true // prejoin page first
+        },
+        interfaceConfigOverwrite: {
+          SHOW_JITSI_WATERMARK: false
+        }
+      };
+
+      api = new JitsiMeetExternalAPI(domain, options);
+      document.getElementById("status").innerText = "Choose or create a meeting to start.";
+      document.getElementById("alert").innerText = "";
+    }
+
+    // Always start with prejoin / home page
+    window.onload = async () => {
+      const startCall = await checkCron();
+      if (startCall) startJitsiHome();
+    };
+
+    // Auto-refresh cron status every 5 seconds
+    setInterval(async () => {
+      await checkCron();
+    }, 5000);
+  </script>
+</body>
+</html>
